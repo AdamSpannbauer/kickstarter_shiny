@@ -3,7 +3,11 @@ library(fpp3)
 
 server <- function(input, output, session) {
   plot_df <- reactive({
-    # TODO: add ability to filter by date
+    minDate <- input$dateRange[1]
+    maxDate <- input$dateRange[2]
+
+    filtered_df <- ks_df[ks_df$launched_week >= minDate & ks_df$launched_week <= maxDate,]
+    print(filtered_df)
 
     # TODO: add ability to filter by state
 
@@ -11,7 +15,7 @@ server <- function(input, output, session) {
 
     #------------------------
     ks_df_agg <- aggregate(
-      usd_pledged ~ deadline_week + main_category, ks_df, sum
+      usd_pledged ~ deadline_week + main_category, filtered_df, sum
     )
 
 
